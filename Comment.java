@@ -40,18 +40,27 @@ public class Comment {
 	public ArrayList<String> MultiLineComment(ArrayList<String> lineList){
 		for(int i = 0 ; i < lineList.size() ; i++) {
 			if(lineList.get(i).contains("/*")) {
-				int count2 = 0;
+				boolean delEnd = false;
 				int cStart = i;
 
 				for(int j = i; j < lineList.size() ; j++) {
 					if(lineList.get(j).contains("*/")) {
-						int cEnd = j;
-						for(;cStart <= cEnd ; cStart++) {
-							lineList.remove(i);
-							count2++;
+						if(lineList.get(j).endsWith("*/")) {
+							int cEnd = j;
+							for(;cStart <= cEnd ; cStart++) {
+								lineList.remove(i);
+								delEnd = true;
+							}
+						}else {
+							int cEnd = j;
+							cEnd--;
+							for(;cStart <= cEnd ; cStart++) {
+								lineList.remove(i);
+								delEnd = true;
+							}
 						}
 					}
-					if(count2 >= 1) {
+					if(delEnd) {
 						break;
 					}
 				}
